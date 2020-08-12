@@ -1,0 +1,19 @@
+name: 'actions-sns-tag-alert'
+description: 'Sends a notification to SNS when a new tag is created'
+inputs:
+  aws_key_id:
+    description: "AWS Access Key ID"
+    required: true
+  aws_secret_key:
+    description: "AWS Secret Access Key"
+    required: true
+  topic_arn:
+    description: "The SNS topic to publish to"
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.aws_key_id }}
+    - ${{ inputs.aws_secret_key }}
+    - ${{ inputs.topic_arn }}
