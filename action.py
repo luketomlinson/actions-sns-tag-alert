@@ -18,8 +18,6 @@ def get_recent_tags():
             capture_output=True,
         )
         .stdout.decode("utf-8")
-        .strip()
-        .split(" ")
     )
 
 
