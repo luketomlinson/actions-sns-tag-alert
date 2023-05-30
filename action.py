@@ -35,8 +35,6 @@ def guess_prev_tag(recent_tags, curr_tag):
 
 
 def main():
-    aws_access_key_id, aws_secret_access_key, topic_arn = sys.argv[1:4]
-    region = topic_arn.split(":")[3]
 
     tag_prefix = "refs/tags/"
     git_tag = os.environ["GITHUB_REF"]
@@ -49,25 +47,6 @@ def main():
     prev_tag = "master"
     if recent_tags and len(recent_tags) > 1:
         prev_tag = guess_prev_tag(recent_tags, git_tag)
-
-    data = {
-        "tag": git_tag,
-        "repo_name": os.environ["GITHUB_REPOSITORY"],
-        "prev_tag": prev_tag,
-    }
-
-    sns = boto3.client(
-        "sns",
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        region_name=region,
-    )
-
-    sns.publish(
-        TopicArn=topic_arn,
-        Subject="[{0}] Tag Created - {1}".format(data["repo_name"], data["tag"]),
-        Message=json.dumps(data),
-    )
 
 
 if __name__ == "__main__":
