@@ -15,7 +15,8 @@ def get_recent_tags():
         subprocess.run(
             "git tag | sort --version-sort -r | head | tr '\n' ' '",
             shell=True,
-            capture_output=True,
+            stdout: PIPE,
+            stderr: STDOUT
         )
         .stdout.decode("utf-8")
     )
